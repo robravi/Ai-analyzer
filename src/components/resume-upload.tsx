@@ -29,9 +29,17 @@ export function ResumeUpload() {
           body: formData,
         });
 
+        const contentType = res.headers.get("content-type") || "";
         if (!res.ok) {
-          const data = await res.json();
-          throw new Error(data.error || "Upload failed");
+          if (contentType.includes("application/json")) {
+            const data = await res.json();
+            throw new Error(data.error || "Upload failed");
+          }
+          throw new Error(`Upload failed (${res.status})`);
+        }
+
+        if (!contentType.includes("application/json")) {
+          throw new Error("Unexpected response from server");
         }
 
         const { text, fileName: name } = await res.json();
