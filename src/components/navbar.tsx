@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/components/user-menu";
 import { cn } from "@/lib/utils";
-import { FileSearch, Moon, Sun, Menu, X } from "lucide-react";
+import { Sparkles, Moon, Sun, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const navLinks = [
@@ -24,11 +24,15 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center px-4 mx-auto max-w-6xl">
-        <Link href="/" className="flex items-center gap-2 mr-6">
-          <FileSearch className="h-5 w-5 text-primary" />
-          <span className="font-bold text-sm hidden sm:inline">Resume Analyzer</span>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center px-4 mx-auto max-w-5xl">
+        <Link href="/" className="flex items-center gap-2.5 mr-8">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <Sparkles className="h-4 w-4" />
+          </div>
+          <span className="font-heading font-bold text-lg hidden sm:inline tracking-tight">
+            Resume AI
+          </span>
         </Link>
 
         {session && (
@@ -38,10 +42,10 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-sm px-3 py-2 rounded-md transition-colors",
+                  "text-sm px-3.5 py-2 rounded-full transition-colors",
                   pathname === link.href
-                    ? "bg-accent text-accent-foreground font-medium"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 )}
               >
                 {link.label}
@@ -54,6 +58,7 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="icon"
+            className="rounded-full"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -64,7 +69,11 @@ export function Navbar() {
           {session ? (
             <UserMenu />
           ) : (
-            <Button size="sm" render={<Link href="/login" />}>
+            <Button
+              size="sm"
+              className="rounded-full px-5"
+              render={<Link href="/login" />}
+            >
               Sign In
             </Button>
           )}
@@ -73,26 +82,30 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="md:hidden rounded-full"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
-              {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              {mobileOpen ? (
+                <X className="h-4 w-4" />
+              ) : (
+                <Menu className="h-4 w-4" />
+              )}
             </Button>
           )}
         </div>
       </div>
 
       {mobileOpen && session && (
-        <nav className="md:hidden border-t p-2">
+        <nav className="md:hidden border-t p-3 bg-background/95 backdrop-blur-xl">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
-                "block text-sm px-3 py-2 rounded-md transition-colors",
+                "block text-sm px-4 py-2.5 rounded-xl transition-colors",
                 pathname === link.href
-                  ? "bg-accent text-accent-foreground font-medium"
+                  ? "bg-primary/10 text-primary font-medium"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
