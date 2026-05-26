@@ -10,6 +10,9 @@ import {
   Sparkles,
   Upload,
   BarChart3,
+  Zap,
+  Brain,
+  CheckCircle2,
 } from "lucide-react";
 
 const features = [
@@ -18,32 +21,24 @@ const features = [
     title: "Resume Analysis",
     description:
       "Get detailed feedback on your resume with section-by-section scores and actionable improvements.",
-    color: "from-orange-500/10 to-amber-500/10 dark:from-orange-500/20 dark:to-amber-500/20",
-    iconColor: "text-orange-600 dark:text-orange-400",
   },
   {
     icon: Target,
     title: "Job Matching",
     description:
       "Compare your resume against a job description to identify gaps and optimize for the role.",
-    color: "from-rose-500/10 to-pink-500/10 dark:from-rose-500/20 dark:to-pink-500/20",
-    iconColor: "text-rose-600 dark:text-rose-400",
   },
   {
     icon: ShieldCheck,
     title: "ATS Compatibility",
     description:
       "Check if your resume can pass Applicant Tracking Systems with formatting and keyword analysis.",
-    color: "from-emerald-500/10 to-teal-500/10 dark:from-emerald-500/20 dark:to-teal-500/20",
-    iconColor: "text-emerald-600 dark:text-emerald-400",
   },
   {
     icon: History,
     title: "Save & Track",
     description:
       "Save your analyses and track improvements over time with your personal history.",
-    color: "from-violet-500/10 to-purple-500/10 dark:from-violet-500/20 dark:to-purple-500/20",
-    iconColor: "text-violet-600 dark:text-violet-400",
   },
 ];
 
@@ -51,21 +46,28 @@ const steps = [
   {
     icon: Upload,
     step: "01",
-    title: "Upload Resume",
-    description: "Drop your PDF or DOCX file",
+    title: "Upload",
+    description: "Drop your PDF or DOCX resume file",
   },
   {
-    icon: Sparkles,
+    icon: Brain,
     step: "02",
-    title: "AI Analyzes",
-    description: "Our AI reviews every detail",
+    title: "Analyze",
+    description: "AI reviews every detail instantly",
   },
   {
     icon: BarChart3,
     step: "03",
-    title: "Get Results",
-    description: "Actionable scores and feedback",
+    title: "Improve",
+    description: "Get scores and actionable feedback",
   },
+];
+
+const stats = [
+  { value: "70B", label: "Parameter AI Model" },
+  { value: "<3s", label: "Analysis Time" },
+  { value: "98%", label: "ATS Accuracy" },
+  { value: "Free", label: "To Get Started" },
 ];
 
 export default function HomePage() {
@@ -74,75 +76,102 @@ export default function HomePage() {
       <Navbar />
       <main className="flex-1 overflow-hidden">
         {/* Hero Section */}
-        <section className="relative py-24 sm:py-32 lg:py-40">
-          {/* Animated background blobs */}
+        <section className="relative py-28 sm:py-36 lg:py-44">
+          {/* Grid background */}
+          <div className="absolute inset-0 -z-10 grid-pattern opacity-50 dark:opacity-100" />
+
+          {/* Gradient orbs */}
           <div className="absolute inset-0 -z-10 overflow-hidden">
-            <div className="absolute top-1/4 left-1/4 h-72 w-72 rounded-full bg-primary/10 blur-3xl animate-blob" />
-            <div className="absolute top-1/3 right-1/4 h-72 w-72 rounded-full bg-rose-400/10 blur-3xl animate-blob animation-delay-2000" />
-            <div className="absolute bottom-1/4 left-1/3 h-72 w-72 rounded-full bg-amber-400/10 blur-3xl animate-blob animation-delay-4000" />
+            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-primary/5 dark:bg-primary/10 blur-[120px]" />
+            <div className="absolute bottom-0 left-1/4 h-[300px] w-[400px] rounded-full bg-blue-400/5 dark:bg-blue-400/8 blur-[100px]" />
           </div>
 
           <div className="container mx-auto max-w-5xl px-4 text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm text-primary mb-8">
-              <Sparkles className="h-3.5 w-3.5" />
-              Powered by Groq AI
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 dark:bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-10">
+              <Zap className="h-3.5 w-3.5" />
+              Powered by Llama 3.3 70B on Groq
             </div>
 
-            <h1 className="font-heading text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95]">
-              Make Your Resume{" "}
-              <span className="text-gradient italic">Unforgettable</span>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.05]">
+              Your Resume,{" "}
+              <span className="text-gradient-blue">Perfected</span>
+              <span className="text-primary">.</span>
             </h1>
 
             <p className="mt-8 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Upload your resume and receive instant AI-driven insights.
-              Detailed analysis, job matching, and ATS compatibility
-              — all in one place.
+              AI-powered analysis that dissects your resume in seconds.
+              Get precise scores, identify weaknesses, and land more interviews.
             </p>
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
-                className="rounded-full px-8 h-12 text-base shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow"
+                className="rounded-lg px-8 h-13 text-base glow-blue transition-all hover:scale-[1.02]"
                 render={<Link href="/analyze" />}
               >
-                Start Analyzing
+                Start Free Analysis
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                className="rounded-full px-8 h-12 text-base"
+                className="rounded-lg px-8 h-13 text-base border-border/60 hover:bg-accent"
                 render={<Link href="/login" />}
               >
                 Sign In
               </Button>
             </div>
+
+            {/* Stats bar */}
+            <div className="mt-20 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
+              {stats.map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-gradient-blue">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs sm:text-sm text-muted-foreground mt-1">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* How it works */}
-        <section className="py-20 sm:py-24">
+        <section className="py-24 sm:py-28 border-t border-border/50">
           <div className="container mx-auto max-w-5xl px-4">
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-center mb-4">
-              How It Works
-            </h2>
-            <p className="text-muted-foreground text-center max-w-xl mx-auto mb-16">
-              Three simple steps to a better resume
-            </p>
+            <div className="text-center mb-16">
+              <p className="text-sm font-medium text-primary uppercase tracking-widest mb-3">
+                Process
+              </p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+                How It Works
+              </h2>
+            </div>
 
             <div className="grid gap-8 sm:grid-cols-3">
-              {steps.map((s) => (
-                <div key={s.step} className="text-center group">
+              {steps.map((s, i) => (
+                <div
+                  key={s.step}
+                  className="relative group text-center p-8 rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-300"
+                >
+                  {/* Connector line */}
+                  {i < steps.length - 1 && (
+                    <div className="hidden sm:block absolute top-1/2 -right-4 w-8 h-px bg-border/50" />
+                  )}
+
                   <div className="relative mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 transition-colors group-hover:bg-primary/20">
                     <s.icon className="h-7 w-7 text-primary" />
-                    <span className="absolute -top-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                    <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                       {s.step}
                     </span>
                   </div>
-                  <h3 className="font-heading text-lg font-semibold mb-2">
-                    {s.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">{s.description}</p>
+                  <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {s.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -150,35 +179,33 @@ export default function HomePage() {
         </section>
 
         {/* Features */}
-        <section className="py-20 sm:py-24 bg-muted/40">
+        <section className="py-24 sm:py-28 border-t border-border/50">
           <div className="container mx-auto max-w-5xl px-4">
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-center mb-4">
-              Everything You Need
-            </h2>
-            <p className="text-muted-foreground text-center max-w-xl mx-auto mb-16">
-              Comprehensive tools to refine, match, and optimize your resume
-            </p>
+            <div className="text-center mb-16">
+              <p className="text-sm font-medium text-primary uppercase tracking-widest mb-3">
+                Features
+              </p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+                Everything You Need
+              </h2>
+              <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
+                Comprehensive tools to analyze, match, and optimize your resume for any role
+              </p>
+            </div>
 
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-2">
               {features.map((feature) => (
                 <div
                   key={feature.title}
-                  className="group relative rounded-2xl border bg-card p-8 transition-all hover:shadow-lg hover:-translate-y-1"
+                  className="group relative rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-8 transition-all duration-300 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(0,87,255,0.06)]"
                 >
-                  <div
-                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.color} opacity-0 transition-opacity group-hover:opacity-100`}
-                  />
-                  <div className="relative">
-                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-background shadow-sm border">
-                      <feature.icon className={`h-6 w-6 ${feature.iconColor}`} />
-                    </div>
-                    <h3 className="font-heading text-xl font-semibold mb-2">
-                      {feature.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {feature.description}
-                    </p>
+                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary/15 transition-colors">
+                    <feature.icon className="h-6 w-6 text-primary" />
                   </div>
+                  <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -186,36 +213,59 @@ export default function HomePage() {
         </section>
 
         {/* CTA */}
-        <section className="py-24 sm:py-32">
-          <div className="container mx-auto max-w-5xl px-4 text-center">
-            <div className="relative rounded-3xl bg-gradient-to-br from-primary/10 via-rose-500/5 to-amber-500/10 border p-12 sm:p-16 overflow-hidden">
-              <div className="absolute top-0 right-0 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
-              <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-amber-400/10 blur-3xl" />
+        <section className="py-24 sm:py-28 border-t border-border/50">
+          <div className="container mx-auto max-w-5xl px-4">
+            <div className="relative rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-12 sm:p-16 text-center overflow-hidden">
+              {/* Background glow */}
+              <div className="absolute inset-0 -z-10">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[500px] rounded-full bg-primary/5 dark:bg-primary/10 blur-[100px]" />
+              </div>
+
               <div className="relative">
-                <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-4">
-                  Ready to Stand Out?
+                <Sparkles className="h-8 w-8 text-primary mx-auto mb-6" />
+                <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">
+                  Ready to Land Your Dream Job?
                 </h2>
-                <p className="text-muted-foreground max-w-lg mx-auto mb-8">
-                  Join thousands who have improved their resumes with AI-powered
-                  insights. Start your free analysis today.
+                <p className="text-muted-foreground max-w-lg mx-auto mb-10">
+                  Upload your resume and get AI-powered insights in seconds.
+                  No credit card required.
                 </p>
-                <Button
-                  size="lg"
-                  className="rounded-full px-8 h-12 text-base shadow-lg shadow-primary/25"
-                  render={<Link href="/analyze" />}
-                >
-                  Get Started Free
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button
+                    size="lg"
+                    className="rounded-lg px-8 h-13 text-base glow-blue transition-all hover:scale-[1.02]"
+                    render={<Link href="/analyze" />}
+                  >
+                    Analyze My Resume
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+
+                <div className="mt-8 flex items-center justify-center gap-6 text-sm text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                    Free to use
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                    No signup required
+                  </span>
+                  <span className="flex items-center gap-1.5 hidden sm:flex">
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                    Instant results
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t py-8 bg-muted/30">
-        <div className="container mx-auto max-w-5xl px-4 text-center text-sm text-muted-foreground">
-          AI Resume Analyzer. Powered by Groq AI.
+      <footer className="border-t border-border/50 py-8">
+        <div className="container mx-auto max-w-5xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+          <span>AI Resume Analyzer</span>
+          <span>Powered by Groq AI</span>
         </div>
       </footer>
     </>

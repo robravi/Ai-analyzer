@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/components/user-menu";
 import { cn } from "@/lib/utils";
-import { Sparkles, Moon, Sun, Menu, X } from "lucide-react";
+import { Zap, Moon, Sun, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const navLinks = [
@@ -24,14 +24,14 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="container flex h-16 items-center px-4 mx-auto max-w-5xl">
         <Link href="/" className="flex items-center gap-2.5 mr-8">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Sparkles className="h-4 w-4" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary glow-blue">
+            <Zap className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="font-heading font-bold text-lg hidden sm:inline tracking-tight">
-            Resume AI
+          <span className="font-bold text-base hidden sm:inline tracking-tight">
+            Resume<span className="text-primary">AI</span>
           </span>
         </Link>
 
@@ -42,10 +42,10 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-sm px-3.5 py-2 rounded-full transition-colors",
+                  "text-sm px-3.5 py-2 rounded-lg transition-all duration-200",
                   pathname === link.href
                     ? "bg-primary/10 text-primary font-medium"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 )}
               >
                 {link.label}
@@ -58,7 +58,7 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full"
+            className="rounded-lg"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -71,7 +71,7 @@ export function Navbar() {
           ) : (
             <Button
               size="sm"
-              className="rounded-full px-5"
+              className="rounded-lg px-5 glow-blue"
               render={<Link href="/login" />}
             >
               Sign In
@@ -82,7 +82,7 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden rounded-full"
+              className="md:hidden rounded-lg"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               {mobileOpen ? (
@@ -96,14 +96,14 @@ export function Navbar() {
       </div>
 
       {mobileOpen && session && (
-        <nav className="md:hidden border-t p-3 bg-background/95 backdrop-blur-xl">
+        <nav className="md:hidden border-t border-border/50 p-3 bg-background/95 backdrop-blur-xl">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
-                "block text-sm px-4 py-2.5 rounded-xl transition-colors",
+                "block text-sm px-4 py-2.5 rounded-lg transition-all duration-200",
                 pathname === link.href
                   ? "bg-primary/10 text-primary font-medium"
                   : "text-muted-foreground hover:text-foreground"
