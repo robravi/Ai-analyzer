@@ -4,9 +4,9 @@ export async function parseResume(buffer: Buffer, fileName: string): Promise<str
   const extension = fileName.split(".").pop()?.toLowerCase();
 
   if (extension === "pdf") {
-    // Dynamic import to avoid pdf-parse trying to load test file at build time
+    // Import the lib directly to avoid pdf-parse's index.js test file auto-load
     // @ts-expect-error -- pdf-parse v1 has no type declarations
-    const pdf = (await import("pdf-parse")).default;
+    const pdf = (await import("pdf-parse/lib/pdf-parse.js")).default;
     const result = await pdf(buffer);
     return result.text.trim();
   }

@@ -30,7 +30,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
+    console.error("Signup error:", err);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

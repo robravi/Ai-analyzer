@@ -3,6 +3,7 @@
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "sonner";
 import { useState } from "react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -27,6 +28,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           disableTransitionOnChange
         >
           {children}
+          <Toaster richColors position="top-center" />
         </ThemeProvider>
       </QueryClientProvider>
     </SessionProvider>

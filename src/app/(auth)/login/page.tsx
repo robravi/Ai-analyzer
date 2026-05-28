@@ -5,18 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError("");
     setLoading(true);
 
     try {
@@ -28,10 +27,11 @@ export default function LoginPage() {
         });
         const data = await res.json();
         if (!res.ok) {
-          setError(data.error);
+          toast.error(data.error);
           setLoading(false);
           return;
         }
+        toast.success("Account created successfully!");
       }
 
       const result = await signIn("credentials", {
@@ -41,14 +41,15 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError(isSignUp ? "Account created but sign-in failed. Try signing in." : "Invalid email or password");
+        toast.error(isSignUp ? "Account created but sign-in failed. Try signing in." : "Invalid email or password");
         setLoading(false);
         return;
       }
 
+      toast.success("Signed in successfully!");
       window.location.href = "/analyze";
     } catch {
-      setError("Something went wrong");
+      toast.error("Something went wrong");
       setLoading(false);
     }
   }
@@ -161,11 +162,8 @@ export default function LoginPage() {
               className="w-full h-11 rounded-xl border border-border/60 bg-background px-4 text-sm outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
             />
 
-            {error && (
-              <p className="text-sm text-destructive text-center">{error}</p>
-            )}
-
             <Button
+              type="submit"
               className="w-full h-11 rounded-xl glow-blue transition-all"
               disabled={loading}
             >
@@ -186,7 +184,6 @@ export default function LoginPage() {
                 type="button"
                 onClick={() => {
                   setIsSignUp(!isSignUp);
-                  setError("");
                 }}
                 className="text-primary hover:underline font-medium"
               >
