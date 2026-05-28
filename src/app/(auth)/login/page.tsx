@@ -38,16 +38,17 @@ export default function LoginPage() {
         email,
         password,
         redirect: false,
+        callbackUrl: "/analyze",
       });
 
-      if (result?.error) {
+      if (!result || result.error || result.ok === false) {
         toast.error(isSignUp ? "Account created but sign-in failed. Try signing in." : "Invalid email or password");
         setLoading(false);
         return;
       }
 
       toast.success("Signed in successfully!");
-      window.location.href = "/analyze";
+      window.location.href = result.url || "/analyze";
     } catch {
       toast.error("Something went wrong");
       setLoading(false);
