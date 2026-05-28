@@ -4,8 +4,55 @@ import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      if (isSignUp) {
+        const res = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setError(data.error);
+          setLoading(false);
+          return;
+        }
+      }
+
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError(isSignUp ? "Account created but sign-in failed. Try signing in." : "Invalid email or password");
+        setLoading(false);
+        return;
+      }
+
+      window.location.href = "/analyze";
+    } catch {
+      setError("Something went wrong");
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative">
       {/* Background */}
@@ -24,9 +71,14 @@ export default function LoginPage() {
                 <Zap className="h-5 w-5 text-primary-foreground" />
               </div>
             </Link>
-            <h1 className="text-2xl font-bold tracking-tight">Welcome Back</h1>
+            <h1 className="text-2xl font-bold tracking-tight">
+              {isSignUp ? "Create Account" : "Welcome Back"}
+            </h1>
             <p className="text-sm text-muted-foreground mt-2">
-              Sign in to continue to Resume<span className="text-primary">AI</span>
+              {isSignUp
+                ? "Sign up to start using Resume"
+                : "Sign in to continue to Resume"}
+              <span className="text-primary">AI</span>
             </p>
           </div>
 
@@ -72,9 +124,74 @@ export default function LoginPage() {
             </Button>
           </div>
 
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border/50" />
+            </div>
+            <div className="relative flex justify-center text-xs">
+              <span className="bg-card px-3 text-muted-foreground">or</span>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-3">
+            {isSignUp && (
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full h-11 rounded-xl border border-border/60 bg-background px-4 text-sm outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
+              />
+            )}
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full h-11 rounded-xl border border-border/60 bg-background px-4 text-sm outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+              className="w-full h-11 rounded-xl border border-border/60 bg-background px-4 text-sm outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
+            />
+
+            {error && (
+              <p className="text-sm text-destructive text-center">{error}</p>
+            )}
+
+            <Button
+              className="w-full h-11 rounded-xl glow-blue transition-all"
+              disabled={loading}
+            >
+              {loading
+                ? isSignUp
+                  ? "Creating account..."
+                  : "Signing in..."
+                : isSignUp
+                  ? "Create Account"
+                  : "Sign In"}
+            </Button>
+          </form>
+
           <div className="mt-6 pt-5 border-t border-border/50">
-            <p className="text-center text-xs text-muted-foreground">
-              By signing in, you agree to our terms of service
+            <p className="text-center text-sm text-muted-foreground">
+              {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSignUp(!isSignUp);
+                  setError("");
+                }}
+                className="text-primary hover:underline font-medium"
+              >
+                {isSignUp ? "Sign In" : "Sign Up"}
+              </button>
             </p>
           </div>
         </div>
